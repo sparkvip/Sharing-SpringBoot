@@ -5,7 +5,13 @@ import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.springboot.entity.Users;
 import com.baomidou.springboot.service.IUserService;
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +32,14 @@ public class UserController extends ApiController {
      * http://localhost:8080/user/test
      */
     @GetMapping("/test")
-    public IPage<Users> test() {
-        return userService.page(new Page<Users>(0, 12), null);
+    @CrossOrigin(origins = "http://localhost:8000")
+    public ResponseEntity<String> test(String file) {
+        System.out.println("file:\n"+file+"\n\n\n\n\n");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Methods", "*");
+        headers.add("Access-Control-Allow-Headers:x-requested-with","content-type");
+        return new ResponseEntity<String>("ookkk!", headers, HttpStatus.OK);
     }
 
     /**
