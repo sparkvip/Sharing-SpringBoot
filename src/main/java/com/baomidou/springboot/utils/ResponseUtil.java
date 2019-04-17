@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 /**
+ * 响应码包装类
+ *
  * @author jin.li05@hand-china.com
  * @version 1.0
  * @ClassName ResponseUtil
@@ -13,11 +15,15 @@ import org.springframework.http.ResponseEntity;
  * @since JDK 1.8
  */
 public class ResponseUtil {
-    public static ResponseEntity<String> returnStr(String String,HttpStatus status){
-        HttpHeaders headers = new HttpHeaders();
+    public static HttpHeaders headers = new HttpHeaders();
+
+    static {
         headers.add("Access-Control-Allow-Origin", "*");
         headers.add("Access-Control-Allow-Methods", "*");
-        headers.add("Access-Control-Allow-Headers:x-requested-with","content-type");
+        headers.add("Access-Control-Allow-Headers:x-requested-with", "content-type");
+    }
+
+    public static ResponseEntity<String> returnStr(String String, HttpStatus status) {
         // return ResponseEntity.ok("33")
         return new ResponseEntity<String>(String, headers, status);
     }

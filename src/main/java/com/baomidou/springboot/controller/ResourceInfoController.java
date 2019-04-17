@@ -25,11 +25,7 @@ public class ResourceInfoController {
     @GetMapping("/test")
     public ResponseEntity<String> test(String file) {
         System.out.println("test....:\n");
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "*");
-        headers.add("Access-Control-Allow-Methods", "*");
-        headers.add("Access-Control-Allow-Headers:x-requested-with", "content-type");
-        return new ResponseEntity<String>("ookkk!", headers, HttpStatus.OK);
+        return ResponseUtil.returnStr("ookkk", HttpStatus.OK);
     }
 
     @PostMapping("/insert")
