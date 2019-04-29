@@ -30,8 +30,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, Users> implements I
 //		return baseMapper.selectListBySQL();
 //	}
 //
-//	@Override
-//	public List<User> selectListByWrapper(Wrapper wrapper) {
-//		return baseMapper.selectListByWrapper(wrapper);
-//	}
+	@Override
+	public List<Users> selectListByWrapper(Wrapper wrapper) {
+		return baseMapper.selectListByWrapper(wrapper);
+	}
 }

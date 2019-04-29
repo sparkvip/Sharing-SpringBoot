@@ -17,7 +17,7 @@ public interface IUserService extends IService<Users> {
 
 	boolean deleteAll();
 //
-//	public List<User> selectListBySQL();
-//
-//	public List<User> selectListByWrapper(Wrapper wrapper);
+//	public List<User> selecstListBySQL();
+//s
+	public List<Users> selectListByWrapper(Wrapper wrapper);
 }

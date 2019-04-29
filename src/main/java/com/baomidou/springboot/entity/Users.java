@@ -1,5 +1,6 @@
 package com.baomidou.springboot.entity;
 
+import java.beans.Transient;
 import java.util.Date;
 
 import lombok.Data;
@@ -36,4 +37,15 @@ public class Users extends SuperEntity<Users> {
      */
     private String phone;
 
+    @Override
+    public String toString() {
+        return "Users{" +
+                "name='" + name + '\'' +
+                ", insititute='" + insititute + '\'' +
+                ", password='" + password + '\'' +
+                ", portrait='" + portrait + '\'' +
+                ", privilege='" + privilege + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

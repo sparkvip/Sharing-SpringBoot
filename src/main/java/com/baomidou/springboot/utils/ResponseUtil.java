@@ -27,4 +27,7 @@ public class ResponseUtil {
         // return ResponseEntity.ok("33")
         return new ResponseEntity<String>(String, headers, status);
     }
+    public static ResponseEntity<Object> returnObj(Object obj, HttpStatus status) {
+        return new ResponseEntity<Object>(obj, headers, status);
+    }
 }

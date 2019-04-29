@@ -21,7 +21,7 @@ public interface UserMapper extends BaseMapper<Users> {
      */
     int deleteAll();
 
-    @Select("select test_id as id, name, age, test_type from user")
+    @Select("count(*) from users ")
     List<Users> selectListBySQL();
 
     List<Users> selectListByWrapper(@Param("ew") Wrapper wrapper);

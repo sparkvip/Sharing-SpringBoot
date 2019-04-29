@@ -1,23 +1,23 @@
 package com.baomidou.springboot.controller;
 
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.springboot.entity.LoginInfo;
 import com.baomidou.springboot.entity.Users;
 import com.baomidou.springboot.service.IUserService;
-import com.baomidou.springboot.utils.ResponseUtil;
-import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 代码生成器，参考源码测试用例：
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController extends ApiController {
-
     @Autowired
     private IUserService userService;
 
@@ -35,23 +34,32 @@ public class UserController extends ApiController {
      * http://localhost:8080/user/test
      */
     @PostMapping("/test")
-    public ResponseEntity<String> test(String file) {
-        System.out.println("file:\n"+file+"\n\n\n\n\n");
-        return ResponseUtil.returnStr("test -- ok", HttpStatus.OK);
+    @ResponseBody
+    public ResponseEntity<Object> test(@RequestBody Users user) {
+        List<Users> users = userService.selectListByWrapper(new QueryWrapper<Users>().eq("name", user.getName()).eq("password", user.getPassword()));
+        LoginInfo reutrnLoginInfo;
+        if (users != null && users.size() == 1) {
+            reutrnLoginInfo = new LoginInfo(users.get(0).getId(), users.get(0).getName(), LoginInfo.STATUS_OK, "account", "admin");
+        } else {
+            reutrnLoginInfo = new LoginInfo(-1L, "", LoginInfo.STATUS_ERROR, "account", "admin");
+
+        }
+        return reutrnLoginInfo.ResponseLoginInfo();
     }
 
     /**
      * 插入
+     * http://localhost:8081/user/insert
      */
     @GetMapping("/insert")
     public IPage<Users> test1() {
         Users user = new Users();
-        user.setInsititute("计算机");
-        user.setName("李锦");
+        user.setInsititute("数学");
+        user.setName("admin");
         user.setPhone("12394875433");
-        user.setPassword("123");
+        user.setPassword("123456");
         user.setPortrait("admin");
-        user.setPrivilege("D:/1.png");
+        user.setPrivilege("D:/admin.png");
         userService.save(user);
         return userService.page(new Page<Users>(0, 12), null);
     }

@@ -39,7 +39,7 @@ public class ResourceInfo extends SuperEntity<ResourceInfo>{
     
     /**
       资源存放路径
- 
+
     */
     @TableField(value = "path")
     private String path;
