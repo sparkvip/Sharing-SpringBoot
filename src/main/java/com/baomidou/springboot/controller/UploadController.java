@@ -25,30 +25,35 @@ public class UploadController extends ApiController {
     // HttpServletRequest request
     public ResponseEntity<String> upload(MultipartFile file, Long userId) {
         if (file.isEmpty()) {
-            return ResponseUtil.returnStr("上传失败，未选择文件!", HttpStatus.PROCESSING);
+            return ResponseUtil.returnStr("上传失败，未选择文件!", HttpStatus.OK);
         }
         if (userId == null) {
-            return ResponseUtil.returnStr("未传入用户id!", HttpStatus.PROCESSING);
+            return ResponseUtil.returnStr("未传入用户id!", HttpStatus.OK);
         }
         String fileName = file.getOriginalFilename();
         String filePath = "E:\\school\\temp\\";
         File dest = new File(filePath + userId + "\\" + fileName);
+        // 如果目标文件所在的目录不存在，则创建父目录
         if (!dest.getParentFile().exists()) {
-            // 如果目标文件所在的目录不存在，则创建父目录
             log.info("目标文件所在目录不存在，准备创建它！");
             if (!dest.getParentFile().mkdirs()) {
                 log.info("创建目标文件所在目录失败！");
-                return ResponseUtil.returnStr("文件路径创建失败", HttpStatus.PROCESSING);
+                return ResponseUtil.returnStr("文件路径创建失败", HttpStatus.OK);
             }
+        }
+        // 如果上传的文件名与已经存在的文件同名，则报错
+        if (dest.exists()) {
+            log.info("文件名称与已上传的文件同名，请重新上传！");
+            return ResponseUtil.returnStr("文件名称与已上传的文件同名，请重新上传！", HttpStatus.OK);
         }
         try {
             file.transferTo(dest);
             log.info("上传成功");
-            return ResponseUtil.returnStr("上传成功!", HttpStatus.OK);
+            return ResponseUtil.returnStr("success", HttpStatus.OK);
         } catch (IOException e) {
             log.error(e.toString(), e);
         }
-        return ResponseUtil.returnStr("上传失败!", HttpStatus.PROCESSING);
+        return ResponseUtil.returnStr("上传失败!", HttpStatus.OK);
     }
 
     // 多文件上传 （暂时没有用）
