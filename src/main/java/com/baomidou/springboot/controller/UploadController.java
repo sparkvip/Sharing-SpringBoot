@@ -2,13 +2,21 @@ package com.baomidou.springboot.controller;
 
 
 import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.baomidou.springboot.entity.ResourceInfo;
 import com.baomidou.springboot.utils.ResponseUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,6 +63,33 @@ public class UploadController extends ApiController {
         }
         return ResponseUtil.returnStr("上传失败!", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/download", method = RequestMethod.POST)
+    public ResponseEntity<InputStreamResource> downloadFile(@RequestBody ResourceInfo params)
+            throws IOException {
+        if(params==null){
+            throw  new IOException("请求参数不存在");
+        }
+        if(!StringUtils.isNotBlank(params.getPath())){
+            throw  new IOException("文件路径不存在或没有存储文件路径");
+        }
+        String[] split = params.getPath().split(";");
+        String filePath = "E:\\school\\temp\\"+params.getUserId()+"\\"+split[0];
+        FileSystemResource file = new FileSystemResource(filePath);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getFilename()));
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires",
+                "0");
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentLength(file.contentLength())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new InputStreamResource(file.getInputStream()));
+    }
+
 
     // 多文件上传 （暂时没有用）
     @PostMapping("/multi/upload")

@@ -11,6 +11,7 @@ import com.baomidou.springboot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,15 +34,15 @@ public class UserController extends ApiController {
     /**
      * http://localhost:8080/user/test
      */
-    @PostMapping("/test")
+    @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<Object> test(@RequestBody Users user) {
         List<Users> users = userService.selectListByWrapper(new QueryWrapper<Users>().eq("name", user.getName()).eq("password", user.getPassword()));
         LoginInfo reutrnLoginInfo;
         if (users != null && users.size() == 1) {
-            reutrnLoginInfo = new LoginInfo(users.get(0).getId(), users.get(0).getName(), LoginInfo.STATUS_OK, "account", "admin");
+            reutrnLoginInfo = new LoginInfo(""+users.get(0).getId(), users.get(0).getName(), LoginInfo.STATUS_OK, "account", "admin");
         } else {
-            reutrnLoginInfo = new LoginInfo(-1L, "", LoginInfo.STATUS_ERROR, "account", "admin");
+            reutrnLoginInfo = new LoginInfo("-1", "", LoginInfo.STATUS_ERROR, "account", "guest");
 
         }
         return reutrnLoginInfo.ResponseLoginInfo();
@@ -49,19 +50,17 @@ public class UserController extends ApiController {
 
     /**
      * 插入
-     * http://localhost:8081/user/insert
+     * http://localhost:8081/user/register
      */
-    @GetMapping("/insert")
-    public IPage<Users> test1() {
-        Users user = new Users();
-        user.setInsititute("数学");
-        user.setName("admin");
-        user.setPhone("12394875433");
-        user.setPassword("123456");
-        user.setPortrait("admin");
-        user.setPrivilege("D:/admin.png");
+    @PostMapping("/register")
+    public ResponseEntity<Object> test1(@RequestBody  Users user) {
+        user.setPortrait("common");
         userService.save(user);
-        return userService.page(new Page<Users>(0, 12), null);
+        LoginInfo reutrnLoginInfo = new LoginInfo();
+        reutrnLoginInfo.setStatus(LoginInfo.STATUS_OK);
+        reutrnLoginInfo.setCurrentAuthority("user");
+        reutrnLoginInfo.setUserName(user.getName());
+        return reutrnLoginInfo.ResponseLoginInfo();
     }
 
     @GetMapping("/delete")

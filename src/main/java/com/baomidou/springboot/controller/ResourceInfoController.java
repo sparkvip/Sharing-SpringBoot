@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * (ResourceInfo)表控制层
@@ -35,5 +36,12 @@ public class ResourceInfoController {
         // System.out.println("params\n\n\n\n"+params);
         params.insert();
         return ResponseUtil.returnStr("okkya !呀", HttpStatus.OK);
+    }
+
+    @GetMapping("/query/all")
+    public ResponseEntity<Object> queryAll() {
+        // System.out.println("params\n\n\n\n"+params);
+        List<ResourceInfo> resourceInfos = iResourceInfoService.queryAll();
+        return ResponseUtil.returnObj(resourceInfos, HttpStatus.OK);
     }
 }

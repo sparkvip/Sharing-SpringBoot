@@ -22,7 +22,7 @@ public class LoginInfo {
     public static String STATUS_ERROR = "error";
 
     // 用户id
-    Long userId;
+    String  userId;
 
     String userName;
 
@@ -35,7 +35,10 @@ public class LoginInfo {
     // 当前认证级别
     String currentAuthority;
 
-    public LoginInfo(Long userId, String userName, String status, String type, String currentAuthority) {
+    public LoginInfo() {
+    }
+
+    public LoginInfo(String userId, String userName, String status, String type, String currentAuthority) {
         this.userId = userId;
         this.userName = userName;
         this.status = status;
@@ -44,11 +47,7 @@ public class LoginInfo {
     }
 
     public ResponseEntity<Object> ResponseLoginInfo() {
-        if (STATUS_OK.equals(this.status)) {
-            return ResponseUtil.returnObj(this, HttpStatus.OK);
-        }else {
-            return ResponseUtil.returnObj(this, HttpStatus.CONFLICT);
-        }
+        return ResponseUtil.returnObj(this, HttpStatus.OK);
     }
 
     @Override

@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.baomidou.springboot.mapper.ResourceInfoMapper">
+    <!--<resultMap id="BaseResultMap" type="com.baomidou.springboot.entity.ResourceInfo" >-->
+        <!--<id column="ID" property="id" jdbcType="DECIMAL"></id>-->
+        <!--<result column="NAME" property="name" jdbcType="DECIMAL"/>-->
+        <!--<result column="CATEGORY" property="category" jdbcType="DECIMAL"/>-->
+        <!--<result column="USER_ID" property="userId" jdbcType="VARCHAR"/>-->
+        <!--<result column="PATH" property="path" jdbcType="VARCHAR"/>-->
+        <!--<result column="DOWNLOAD_AMOUNT" property="downloadAmount" jdbcType="VARCHAR"/>-->
+        <!--<result column="group_type" property="uploadTime" jdbcType="VARCHAR"/>-->
+        <!--<result column="USER_ID" property="introduction" jdbcType="DECIMAL"/>-->
 
+        <!--<result column="EMPLOYEE_NAME" property="isShared" jdbcType="VARCHAR"/>-->
+        <!--<result column="CONFIRM_STATUS" property="fileType" jdbcType="VARCHAR"/>-->
+    <!--</resultMap>-->
+    <sql id="base_select">
+        re.id,re.name,re.category,re.user_id,re.path,re.download_amount,re.upload_time,re.introduction,re.is_shared,re.file_type
+    </sql>
+    <select id="queryAll" resultType="com.baomidou.springboot.entity.ResourceInfo">
+        select
+        <include refid="base_select" />
+        ,
+        u.name user_name,
+        row_number() over(order by re.download_amount desc) as resource_index
+        from resource_info re, users u
+        where u.id = re.user_id
+        order by re.download_amount desc
+    </select>
 </mapper>
