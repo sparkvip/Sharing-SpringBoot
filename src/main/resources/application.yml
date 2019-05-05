@@ -14,7 +14,15 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521:orcl
     type: com.alibaba.druid.pool.DruidDataSource
-
+  # 配置文件传输
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      # 单个文件的最大上限
+      max-file-size: 100MB
+      # 单个请求的文件总大小上限
+      max-request-size: 1000MB
 #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
