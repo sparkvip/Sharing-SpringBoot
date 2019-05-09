@@ -3,6 +3,7 @@ package com.baomidou.springboot.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.springboot.entity.ResourceInfo;
+import com.baomidou.springboot.entity.ResourceInfoDto;
 import com.baomidou.springboot.entity.Users;
 import com.baomidou.springboot.mapper.ResourceInfoMapper;
 import com.baomidou.springboot.mapper.UserMapper;
@@ -32,5 +33,15 @@ public class ResourceInfoServiceImpl extends ServiceImpl<ResourceInfoMapper, Res
     @Override
     public List<ResourceInfo> queryAll() {
         return mapper.queryAll();
+    }
+
+    @Override
+    public List<ResourceInfoDto> query(ResourceInfo params) {
+        return mapper.query(params);
+    }
+
+    @Override
+    public List<ResourceInfoDto> update(ResourceInfo params) {
+        return null;
     }
 }

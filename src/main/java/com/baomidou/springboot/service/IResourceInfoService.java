@@ -2,6 +2,7 @@ package com.baomidou.springboot.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.springboot.entity.ResourceInfo;
+import com.baomidou.springboot.entity.ResourceInfoDto;
 
 import java.util.List;
 
@@ -15,12 +16,16 @@ import java.util.List;
 public interface IResourceInfoService extends IService<ResourceInfo> {
     /*
      * queryAll : 查询所有资源
-     *
-     * @version 1.0
-     * @date 2019/4/30 14:36
-     * @param
-     * @return void
-     * @since JDK 1.8
      */
     List<ResourceInfo> queryAll();
+
+    /*
+     * queryAll : 分类搜索
+     */
+    List<ResourceInfoDto> query(ResourceInfo params);
+
+    /*
+     * queryAll : 更新资源
+     */
+    List<ResourceInfoDto> update(ResourceInfo params);
 }

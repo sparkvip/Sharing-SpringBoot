@@ -30,7 +30,6 @@ public class UploadController extends ApiController {
     private static final Logger log = LoggerFactory.getLogger(UploadController.class);
 
     @PostMapping("/upload")
-    // HttpServletRequest request
     public ResponseEntity<String> upload(MultipartFile file, Long userId) {
         if (file.isEmpty()) {
             return ResponseUtil.returnStr("上传失败，未选择文件!", HttpStatus.OK);
@@ -50,10 +49,10 @@ public class UploadController extends ApiController {
             }
         }
         // 如果上传的文件名与已经存在的文件同名，则报错
-        if (dest.exists()) {
-            log.info("文件名称与已上传的文件同名，请重新上传！");
-            return ResponseUtil.returnStr("文件名称与已上传的文件同名，请重新上传！", HttpStatus.OK);
-        }
+//        if (dest.exists()) {
+//            log.info("文件名称与已上传的文件同名，请重新上传！");
+//            return ResponseUtil.returnStr("文件名称与已上传的文件同名，请重新上传！", HttpStatus.OK);
+//        }
         try {
             file.transferTo(dest);
             log.info("上传成功");
