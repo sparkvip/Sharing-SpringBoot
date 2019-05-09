@@ -1,5 +1,6 @@
 package com.baomidou.springboot.controller;
 
+import com.baomidou.springboot.entity.Aduit;
 import com.baomidou.springboot.entity.ResourceInfo;
 import com.baomidou.springboot.entity.ResourceInfoDto;
 import com.baomidou.springboot.service.IResourceInfoService;
@@ -36,9 +37,7 @@ public class ResourceInfoController {
 
     @PostMapping("/insert")
     public ResponseEntity<String> insert(ResourceInfo params) {
-        params.setUploadTime(new Date(System.currentTimeMillis()));
-        params.setDownloadAmount(0L);
-        params.insert();
+        iResourceInfoService.insertResource(params);
         return ResponseUtil.returnStr("插入成功", HttpStatus.OK);
     }
 
@@ -62,11 +61,10 @@ public class ResourceInfoController {
         List<Long> ids = params.stream().map((item) -> {
             return item.getId();
         }).collect(Collectors.toList());
-        boolean flag = iResourceInfoService.removeByIds(ids);
-        return ResponseUtil.returnObj(flag, HttpStatus.OK);
+        return ResponseUtil.returnObj(iResourceInfoService.deleteResource(ids), HttpStatus.OK);
     }
 
-    // 跟新资源
+    // 更新资源
     @PostMapping("/update")
     public ResponseEntity<Object> update(@RequestBody ResourceInfo params) {
         boolean flag = params.updateById();

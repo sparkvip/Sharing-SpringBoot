@@ -25,7 +25,11 @@ public interface IResourceInfoService extends IService<ResourceInfo> {
     List<ResourceInfoDto> query(ResourceInfo params);
 
     /*
-     * queryAll : 更新资源
+     * insertResource : 新增
      */
-    List<ResourceInfoDto> update(ResourceInfo params);
+    void insertResource(ResourceInfo params);
+    /*
+     * deleteResource : 删除资源
+     */
+    Boolean deleteResource(List<Long> ids);
 }
