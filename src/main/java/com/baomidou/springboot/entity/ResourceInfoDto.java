@@ -14,7 +14,7 @@ import java.sql.Date;
  
 @Data
 @SuppressWarnings("serial")
-public class ResourceInfoDto {
+public class ResourceInfoDto{
     private String id;
     /**
       资源名称 

@@ -81,6 +81,10 @@ public class UploadController extends ApiController {
         headers.add("Pragma", "no-cache");
         headers.add("Expires",
                 "0");
+
+        // 更新下载量
+        params.setDownloadAmount(params.getDownloadAmount()+1);
+        params.updateById();
         return ResponseEntity
                 .ok()
                 .headers(headers)

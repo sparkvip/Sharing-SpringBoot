@@ -20,9 +20,14 @@ public interface IResourceInfoService extends IService<ResourceInfo> {
     List<ResourceInfo> queryAll();
 
     /*
-     * queryAll : 分类搜索
+     * query : 分类搜索
      */
     List<ResourceInfoDto> query(ResourceInfo params);
+
+    /*
+     * queryMy : 查看我的资源
+     */
+    List<ResourceInfoDto> queryMy(ResourceInfo params);
 
     /*
      * insertResource : 新增

@@ -15,7 +15,8 @@
         <!--<result column="CONFIRM_STATUS" property="fileType" jdbcType="VARCHAR"/>-->
     <!--</resultMap>-->
     <sql id="base_select">
-        re.id,re.name,re.category,re.user_id,re.path,re.download_amount,re.upload_time,re.introduction,re.is_shared,re.file_type
+        re.id,re.name,re.category,re.user_id,re.path,re.download_amount,re.upload_time,re.introduction,re.is_shared,re.file_type,re.attribute1,
+        re.attribute2,re.attribute3
     </sql>
 
     <sql id="where_like">
@@ -36,14 +37,14 @@
         </if>
     </sql>
 
-    <select id="queryAll" resultType="com.baomidou.springboot.entity.ResourceInfo">
+    <select id="queryAll" resultType="com.baomidou.springboot.entity.ResourceInfoDto">
         select
         <include refid="base_select" />
         ,
         u.name user_name,
         row_number() over(order by re.download_amount desc) as resource_index
         from resource_info re, users u
-        where u.id = re.user_id
+        where u.id = re.user_id and  re.attribute1 = 'agree' and re.attribute2 = '1'
         order by re.download_amount desc
     </select>
 
@@ -52,8 +53,29 @@
         <include refid="base_select" />, u.name user_name,
         row_number() over(order by re.download_amount desc) as resource_index
         from resource_info re, users u
+        where u.id = re.user_id and 1 = 1 and re.attribute2 = '1'
+        <include refid="where_like" />
+        order by re.download_amount desc
+    </select>
+
+    <select id="queryMy"  parameterType="com.baomidou.springboot.entity.ResourceInfo" resultType="com.baomidou.springboot.entity.ResourceInfoDto">
+        select
+        <include refid="base_select" />, u.name user_name,
+        row_number() over(order by re.download_amount desc) as resource_index
+        from resource_info re, users u
         where u.id = re.user_id and 1 = 1
         <include refid="where_like" />
         order by re.download_amount desc
+    </select>
+
+    <select id="queryAduit"  parameterType="com.baomidou.springboot.entity.Aduit" resultType="com.baomidou.springboot.entity.ResourceInfoDto">
+        select
+        <include refid="base_select" />
+        ,u.name user_name
+        from aduit a ,resource_info re,users u
+        where a.info_id = re.id and u.id = re.user_id and 1 = 1
+        <if test="userId != null and userId != ''">
+            and a.user_id = #{userId,jdbcType=VARCHAR}
+        </if>
     </select>
 </mapper>

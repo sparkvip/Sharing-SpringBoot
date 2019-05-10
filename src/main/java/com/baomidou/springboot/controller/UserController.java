@@ -8,7 +8,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.springboot.entity.LoginInfo;
 import com.baomidou.springboot.entity.Users;
 import com.baomidou.springboot.service.IUserService;
+import com.baomidou.springboot.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
@@ -31,12 +33,9 @@ public class UserController extends ApiController {
     @Autowired
     private IUserService userService;
 
-    /**
-     * http://localhost:8080/user/test
-     */
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<Object> test(@RequestBody Users user) {
+    public ResponseEntity<Object> login(@RequestBody Users user) {
         List<Users> users = userService.selectListByWrapper(new QueryWrapper<Users>().eq("name", user.getName()).eq("password", user.getPassword()));
         LoginInfo reutrnLoginInfo;
         if (users != null && users.size() == 1) {
@@ -53,7 +52,7 @@ public class UserController extends ApiController {
      * http://localhost:8081/user/register
      */
     @PostMapping("/register")
-    public ResponseEntity<Object> test1(@RequestBody  Users user) {
+    public ResponseEntity<Object> register(@RequestBody  Users user) {
         user.setPortrait("common");
         userService.save(user);
         LoginInfo reutrnLoginInfo = new LoginInfo();
@@ -63,9 +62,15 @@ public class UserController extends ApiController {
         return reutrnLoginInfo.ResponseLoginInfo();
     }
 
-    @GetMapping("/delete")
-    public Boolean delete() {
-        return userService.deleteAll();
+    @PostMapping("/query")
+    public ResponseEntity<Object> query(Users user) {
+        Users users = user.selectById();
+        return ResponseUtil.returnObj(users, HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Object> update(Users user) {
+        return ResponseUtil.returnObj(user.updateById(), HttpStatus.OK);
     }
 
 //    /**

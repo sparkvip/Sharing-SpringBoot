@@ -55,6 +55,13 @@ public class ResourceInfoController {
         return ResponseUtil.returnObj(resourceInfos, HttpStatus.OK);
     }
 
+    // 查看我的资源
+    @PostMapping("/query/my")
+    public ResponseEntity<Object> queryMy(@RequestBody  ResourceInfo params) {
+        List<ResourceInfoDto> resourceInfos = iResourceInfoService.queryMy(params);
+        return ResponseUtil.returnObj(resourceInfos, HttpStatus.OK);
+    }
+
     // 删除资源
     @PostMapping("/remove")
     public ResponseEntity<Object> query(@RequestBody  List<ResourceInfo> params) {

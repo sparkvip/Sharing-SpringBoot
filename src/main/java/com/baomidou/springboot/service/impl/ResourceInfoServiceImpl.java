@@ -48,15 +48,25 @@ public class ResourceInfoServiceImpl extends ServiceImpl<ResourceInfoMapper, Res
     }
 
     @Override
+    public List<ResourceInfoDto> queryMy(ResourceInfo params) {
+        return mapper.queryMy(params);
+    }
+
+    @Override
     public void insertResource(ResourceInfo params) {
         params.setUploadTime(new Date(System.currentTimeMillis()));
         params.setDownloadAmount(0L);
-        params.insert();
         if ("1".equals(params.getIsShared())) {
+            params.setAttribute1("submit");
+            params.insert();
+            params.setAttribute1("submit");
             Aduit aduit = new Aduit();
             aduit.setInfoId(params.getId());
             aduit.setUserId(1122776702098710530L);
             aduitMapper.insert(aduit);
+        }else{
+            params.setAttribute1("unsubmit");
+            params.insert();
         }
     }
 
