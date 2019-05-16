@@ -25,6 +25,11 @@ public interface IResourceInfoService extends IService<ResourceInfo> {
     List<ResourceInfoDto> query(ResourceInfo params);
 
     /*
+     * queryFriendResource : 查询好友共享资源
+     */
+    List<ResourceInfoDto> queryFriendResource(ResourceInfo params);
+
+    /*
      * queryMy : 查看我的资源
      */
     List<ResourceInfoDto> queryMy(ResourceInfo params);

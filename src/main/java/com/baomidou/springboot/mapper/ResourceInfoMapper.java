@@ -21,6 +21,8 @@ public interface ResourceInfoMapper extends BaseMapper<ResourceInfo> {
     List<ResourceInfo> queryAll();
     // 条件查询资源信息
     List<ResourceInfoDto> query(ResourceInfo params);
+    // 条件查询好友共享资源信息
+    List<ResourceInfoDto> queryFriendResource(ResourceInfo params);
     // 查询我的资源信息
     List<ResourceInfoDto> queryMy(ResourceInfo params);
     // 查询审批资源

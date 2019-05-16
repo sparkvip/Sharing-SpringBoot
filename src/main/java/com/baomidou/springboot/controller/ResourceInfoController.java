@@ -70,6 +70,15 @@ public class ResourceInfoController {
         }).collect(Collectors.toList());
         return ResponseUtil.returnObj(iResourceInfoService.deleteResource(ids), HttpStatus.OK);
     }
+    // 好友资源共享
+    @PostMapping("/share")
+    public ResponseEntity<Object> share(@RequestBody  List<ResourceInfo> params) {
+        for(ResourceInfo  param:params){
+            param.setIsFriend("1");
+            param.updateById();
+        }
+        return ResponseUtil.returnObj("ok", HttpStatus.OK);
+    }
 
     // 更新资源
     @PostMapping("/update")
@@ -78,5 +87,12 @@ public class ResourceInfoController {
         ResourceInfo resourceInfo = new ResourceInfo();
         resourceInfo.setUserId(params.getUserId());
         return ResponseUtil.returnObj(iResourceInfoService.query(resourceInfo), HttpStatus.OK);
+    }
+
+    // 查看好友共享资源
+    @PostMapping("/query/friend/resource")
+    public ResponseEntity<Object> queryFriendResource(@RequestBody  ResourceInfo params) {
+        List<ResourceInfoDto> resourceInfos = iResourceInfoService.queryFriendResource(params);
+        return ResponseUtil.returnObj(resourceInfos, HttpStatus.OK);
     }
 }

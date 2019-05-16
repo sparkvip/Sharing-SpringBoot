@@ -72,5 +72,6 @@ public class ResourceInfoDto{
 
     // 排名
     private String resourceIndex;
-    
+
+    private String isFriend;
 }

@@ -66,7 +66,13 @@ public class ResourceInfo extends SuperEntity<ResourceInfo>{
     */
     @TableField(value = "is_shared")
     private String isShared;
-    
+
+    /**
+     是否是好友共享资源(0/1)
+     */
+    @TableField(value = "is_friend")
+    private String isFriend;
+
     /**
       文件后缀名
     */
@@ -89,5 +95,9 @@ public class ResourceInfo extends SuperEntity<ResourceInfo>{
     // 排名
     @TableField(exist = false)
     private String resourceIndex;
+
+    // 当前用户ID
+    @TableField(exist = false)
+    private String currentUserId;
     
 }

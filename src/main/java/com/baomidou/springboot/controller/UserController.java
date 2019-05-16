@@ -53,7 +53,7 @@ public class UserController extends ApiController {
      */
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody  Users user) {
-        user.setPortrait("common");
+        user.setPrivilege("common");
         userService.save(user);
         LoginInfo reutrnLoginInfo = new LoginInfo();
         reutrnLoginInfo.setStatus(LoginInfo.STATUS_OK);
